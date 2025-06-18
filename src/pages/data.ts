@@ -4,7 +4,12 @@ export type QdData = {
     name: string;
 }
 
-export const QD_DATA: QdData[] = [{
+export const QD_DATA: QdData[] = [
+{
+    id: 'Q-00',
+    name: '小包',
+},
+{
     id: 'Q-01',
     name: 'コンパクト',
 },
