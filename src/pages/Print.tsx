@@ -1,11 +1,14 @@
 import { Alert } from "@/components/share/Alert";
-import { Dropdown } from "@/components/share/form/Dropdown";
+
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { useState } from "react";
+import "../assets/styles/print.css";
+
+import {QD_DATA, SIZE_DATA} from "./data"
 
 type Status = "ACTIVE" | "DONE" | "UNDONE";
 
@@ -104,17 +107,6 @@ const orderExtraData: SubOrderExtra[] = [
   },
 ];
 
-const delivery = [
-  {
-    code: "yamato",
-    name: "ヤマト",
-  },
-  {
-    code: "sagawa",
-    name: "佐川",
-  },
-];
-
 interface Order {
   orderCode: string;
   deliveryCode: "yamato" | "sagawa";
@@ -208,13 +200,22 @@ function Print() {
   // 快递订单组
   const [waybill, setWaybill] = useState<Waybill>();
 
+  const [qdData, setQdData] = useState("");
+
   const scanOnce = () => {
     console.log("扫描一次");
     console.log(goodsCode);
 
+    const sd = SIZE_DATA.find(sd => sd.id === goodsCode);
+    if (sd) {
+      setQdData(sd.id);
+      return;
+    }
+
     const extra = orderExtraData.find(
       (orderExtra) => orderExtra.code === goodsCode
     );
+
     if (extra) {
       let data = waybill;
       if (!data) {
@@ -584,7 +585,7 @@ function Print() {
 
             <li className="flex gap-8">
               <div className="flex-1 flex flex-col gap-2">
-                <Dropdown
+                {/* <Dropdown
                   name="请选择发货渠道"
                   value={currDelivery}
                   data={delivery.map((item) => {
@@ -593,23 +594,18 @@ function Print() {
                       value: item.code,
                     };
                   })}
-                />
-                <Dropdown
-                  name="请选择尺寸"
-                  data={orderExtraData
-                    .filter((e) => e.type === "size")
-                    .map((item) => {
-                      return {
-                        label: item.name,
-                        value: item.code,
-                      };
-                    })}
-                />
+                /> */}
+
+                {SIZE_DATA && SIZE_DATA.map((item) => (
+                  qdData === item.id &&
+                  <div className={`${item.id} w-[120px] h-[120px] relative flex justify-center items-center text-2xl`}>{item.name}</div>
+                ))}
+
               </div>
               <ul className="flex-1 flex flex-col gap-2">
                 <li className="flex gap-2">
                   <Label>长</Label>
-                  <Input
+                  <Input disabled
                     value={currDeliverySize.length}
                     onChange={(e) =>
                       setCurrDeliverySize({
@@ -621,7 +617,7 @@ function Print() {
                 </li>
                 <li className="flex gap-2">
                   <Label>宽</Label>
-                  <Input
+                  <Input disabled
                     value={currDeliverySize.width}
                     onChange={(e) =>
                       setCurrDeliverySize({
@@ -633,7 +629,7 @@ function Print() {
                 </li>
                 <li className="flex gap-2">
                   <Label>高</Label>
-                  <Input
+                  <Input disabled
                     value={currDeliverySize.height}
                     onChange={(e) =>
                       setCurrDeliverySize({
