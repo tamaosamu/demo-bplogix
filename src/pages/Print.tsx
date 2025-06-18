@@ -76,26 +76,6 @@ const orderExtraData: SubOrderExtra[] = [
     type: "package",
   },
   {
-    code: "S-001",
-    name: "三边Σ40",
-    type: "size",
-  },
-  {
-    code: "S-002",
-    name: "三边Σ60",
-    type: "size",
-  },
-  {
-    code: "S-003",
-    name: "三边Σ80",
-    type: "size",
-  },
-  {
-    code: "S-004",
-    name: "三边Σ100",
-    type: "size",
-  },
-  {
     code: "ZZ-001",
     name: "拆箱服务",
     type: "added",
@@ -109,7 +89,7 @@ const orderExtraData: SubOrderExtra[] = [
 
 interface Order {
   orderCode: string;
-  deliveryCode: "SD-00" | "SD-01" | "SD-02";
+  deliveryCode: "SD-00" | "SD-01" | "SD-02" | "";
   children: OrderGoods[];
 }
 
@@ -117,7 +97,7 @@ interface Order {
 const orderData: Order[] = [
   {
     orderCode: "OR250520001539",
-    deliveryCode: "SD-01",
+    deliveryCode: "",
     children: [
       {
         skuCode: "SKU-1003",
@@ -147,7 +127,7 @@ const orderData: Order[] = [
   },
   {
     orderCode: "OR250520001540",
-    deliveryCode: "SD-01",
+    deliveryCode: "",
     children: [
       {
         skuCode: "SKU-1003",
@@ -196,6 +176,7 @@ function Print() {
     isWeight: false,
   });
   const [open, setOpen] = useState<boolean>(false);
+  const [printOrder, setPrintOrder] = useState<boolean>(false);
 
   // 快递订单组
   const [waybill, setWaybill] = useState<Waybill>();
@@ -479,30 +460,6 @@ function Print() {
         {/* 三列内容 */}
         <div className="flex gap-4 flex-1 w-full">
           <div className="flex-1 gap-2 flex flex-col">
-            <div className="p-2 bg-white rounded flex flex-col">
-              <span>演示数据：</span>
-              <span>
-                OR250520001539
-              </span>
-              <span>
-                OR250520001540
-              </span>
-              <span>
-                OR250520001541
-              </span>
-              <span>
-                PR2411210003 / SKU-1003 / SN-1003
-              </span>
-              <span>
-                PR2411210004 / SKU-1004 / SN-1004
-              </span>
-              <span>
-                PR2411210005 / SKU-1005 / SN-1005 
-              </span>
-              <span>
-                PR2411210006 / SKU-1006 / SN-1006
-              </span>
-            </div>
             <div className="p-2 bg-white rounded flex justify-between">
               <span>分单详情</span>
               <span></span>
@@ -522,6 +479,27 @@ function Print() {
                   ))}
                 </ul>
               ))}
+            
+            <div className="p-2 bg-white rounded flex flex-col text-xs text-gray-500">
+              <span>演示数据：</span>
+              <span>---------------</span>
+              <span>订单：</span>
+              <span>OR250520001539</span>
+              <span>OR250520001540</span>
+              <span>OR250520001541</span>
+              <span>商品：</span>
+              <span>PR2411210003 / SKU-1003 / SN-1003</span>
+              <span>PR2411210004 / SKU-1004 / SN-1004</span>
+              <span>PR2411210005 / SKU-1005 / SN-1005</span>
+              <span>PR2411210006 / SKU-1006 / SN-1006</span>
+              <span>包材：</span>
+              <span>BC-C-000001 / BC-C-000002 / BC-C-000007</span>
+              <span>增值：</span>
+              <span>ZZ-001 / ZZ-002</span>
+              <span>尺寸：</span>
+              <span>SD-01 / SD-02 / SD-03</span>
+            </div>
+
           </div>
           <div className="flex-2">
             <div className="h-full grid grid-rows-[auto_1fr_auto] grid-cols-[4fr_1fr] gap-4">
@@ -729,6 +707,20 @@ function Print() {
                 <span className="bg-amber-500 text-white rounded p-1 text-xs">
                   设置
                 </span>
+              </div>
+              <div className="flex gap-8 h-[36px]">
+                <div className="flex-1 flex flex-col gap-2">
+                  <div className="h-full flex justify-between items-center">
+                    <Label>补打面单</Label>
+                    <Switch
+                      checked={printOrder}
+                      onCheckedChange={() =>
+                        setPrintOrder(!printOrder)
+                      }
+                    />
+                  </div>
+                </div>
+                <div className="flex-1 flex flex-col gap-2"></div>
               </div>
             </div>
           </div>
