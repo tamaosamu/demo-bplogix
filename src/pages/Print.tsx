@@ -8,7 +8,7 @@ import { Switch } from "@/components/ui/switch";
 import { useState } from "react";
 import "../assets/styles/print.css";
 
-import { QD_DATA, SIZE_DATA } from "./data";
+import { SIZE_DATA } from "./data";
 
 type Status = "ACTIVE" | "DONE" | "UNDONE";
 
@@ -109,7 +109,7 @@ const orderExtraData: SubOrderExtra[] = [
 
 interface Order {
   orderCode: string;
-  deliveryCode: "yamato" | "sagawa";
+  deliveryCode: "SD-00" | "SD-01" | "SD-02";
   children: OrderGoods[];
 }
 
@@ -117,7 +117,7 @@ interface Order {
 const orderData: Order[] = [
   {
     orderCode: "OR250520001539",
-    deliveryCode: "sagawa",
+    deliveryCode: "SD-01",
     children: [
       {
         skuCode: "SKU-1003",
@@ -147,7 +147,7 @@ const orderData: Order[] = [
   },
   {
     orderCode: "OR250520001540",
-    deliveryCode: "sagawa",
+    deliveryCode: "SD-01",
     children: [
       {
         skuCode: "SKU-1003",
@@ -165,7 +165,7 @@ const orderData: Order[] = [
   },
   {
     orderCode: "OR250520001541",
-    deliveryCode: "sagawa",
+    deliveryCode: "SD-02",
     children: [
       {
         skuCode: "SKU-1003",
@@ -187,7 +187,7 @@ function Print() {
   const [currFindOrder, setFindOrder] = useState<Order>();
   const [currScanGoods, setCurrScanGoods] = useState<Goods>();
   const [goodsGroup, setGoodsGroup] = useState<Goods[]>([]);
-  const [currDelivery, setCurrDelivery] = useState<"yamato" | "sagawa">();
+  // const [currDelivery, setCurrDelivery] = useState<"yamato" | "sagawa">();
   const [currDeliverySize, setCurrDeliverySize] = useState<DeliverySize>({
     width: 20,
     height: 30,
@@ -261,7 +261,8 @@ function Print() {
 
       console.log(order);
       setFindOrder(order);
-      setCurrDelivery(order.deliveryCode);
+      // setCurrDelivery(order.deliveryCode);
+      setQdData(order.deliveryCode);
 
       setGoodsGroup(
         order.children.map((goods) => {
@@ -318,7 +319,8 @@ function Print() {
     console.log(minOrder);
     // 保存当前帅选出来的订单
     setFindOrder(minOrder);
-    setCurrDelivery(minOrder.deliveryCode);
+    // setCurrDelivery(minOrder.deliveryCode);
+    setQdData(minOrder.deliveryCode);
 
     console.log(goodsGroup);
     if (goodsGroup.length === 0) {
@@ -477,6 +479,30 @@ function Print() {
         {/* 三列内容 */}
         <div className="flex gap-4 flex-1 w-full">
           <div className="flex-1 gap-2 flex flex-col">
+            <div className="p-2 bg-white rounded flex flex-col">
+              <span>演示数据：</span>
+              <span>
+                OR250520001539
+              </span>
+              <span>
+                OR250520001540
+              </span>
+              <span>
+                OR250520001541
+              </span>
+              <span>
+                PR2411210003 / SKU-1003 / SN-1003
+              </span>
+              <span>
+                PR2411210004 / SKU-1004 / SN-1004
+              </span>
+              <span>
+                PR2411210005 / SKU-1005 / SN-1005 
+              </span>
+              <span>
+                PR2411210006 / SKU-1006 / SN-1006
+              </span>
+            </div>
             <div className="p-2 bg-white rounded flex justify-between">
               <span>分单详情</span>
               <span></span>
@@ -533,7 +559,7 @@ function Print() {
               {/* 左下 */}
               <div className="rounded h-[40px]">
                 <Input
-                  placeholder="商品码 / SKU码 / SN码"
+                  placeholder="商品码 / SKU码 / SN码 / 订单号 / 包材码 / 增值码 / 尺寸码 / 批次码"
                   className="w-full h-full bg-white border-0"
                   defaultValue={goodsCode}
                   onChange={(e) => setGoodsCode(e.currentTarget.value)}
