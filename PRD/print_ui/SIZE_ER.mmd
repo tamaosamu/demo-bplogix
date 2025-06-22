@@ -1,0 +1,45 @@
+erDiagram
+
+   "商品表" {
+    bigint id PK "主键"
+    string name "产品名称"
+    boolean must_bind_packaging "⚫︎ 必须绑定包材"
+  }
+
+   "商品包材表" {
+    bigint id PK "主键"
+    string name "包材名称"
+  }
+
+   "仓库主管" {
+    bigint id PK "主键"
+    string name "leader姓名"
+    string qcode "认证二维码"
+  }
+
+   "记忆组合表" {
+    bigint id PK "主键"
+    string group_hash "哈希"
+    bigint confirmed_by FK "确认管理员-主键"
+    datetime confirmed_at "确认时间-主键"
+  }
+
+   "记忆组合关系-商品数量" {
+    bigint id PK
+    bigint group_id FK "记忆组合表-主键"
+    bigint product_id FK "商品表-主键"
+    int quantity "出库数量"
+  }
+
+   "记忆组合关系-包材数量" {
+    bigint id PK "主键"
+    bigint group_id FK "记忆组合表-主键"
+    bigint packaging_id FK "包材表-主键"
+    int quantity "使用数量"
+  }
+
+  商品表 ||--o{ 记忆组合关系-商品数量 : 一个商品可能属于多个组合
+  商品包材表 ||--o{ 记忆组合关系-包材数量 : 一个包材可能用于多个组合
+  仓库主管 ||--o{ 记忆组合表 : 仓库主管确认这些组合
+  记忆组合表 ||--o{ 记忆组合关系-商品数量 : 组合中包含这些商品及数量
+  记忆组合表 ||--o{ 记忆组合关系-包材数量 : 组合出库需要这些包材

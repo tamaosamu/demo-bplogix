@@ -1,0 +1,53 @@
+erDiagram
+    CustomerOrders {
+        int order_id PK "客户订单ID"
+        varchar customer_order_code UK "客户订单号"
+        datetime order_date "下单时间"
+        varchar order_status "订单状态 (e.g., Partially Shipped)"
+    }
+
+    OrderItems {
+        int order_item_id PK "订单商品项ID"
+        int order_id FK "客户订单ID"
+        int product_id FK "商品ID"
+        int quantity_ordered "订购数量"
+        int shipped_quantity "已发货数量"
+    }
+
+    ShipmentPackages {
+        int package_id PK "包裹ID"
+        int order_id FK "客户订单ID"
+        varchar package_code UK "包裹唯一码"
+        varchar tracking_number "快递运单号"
+        int carrier_id FK "承运商ID"
+        varchar shipment_status "包裹状态"
+        bool is_master_package "是否主件(親)"
+        int master_package_id FK "关联主件ID (自关联)"
+    }
+
+    PackageItems {
+        int package_item_id PK "包裹商品项ID"
+        int package_id FK "包裹ID"
+        int order_item_id FK "订单商品项ID"
+        int quantity_in_package "在此包裹中的数量"
+        text scanned_sn_list "扫描的SN码"
+    }
+
+    Products {
+        int product_id PK "商品ID"
+        varchar sku UK "商品SKU"
+        varchar name "商品名称"
+    }
+    
+    Carriers {
+        int carrier_id PK "承运商ID"
+        varchar name UK "承运商名称 (e.g., 黑猫, 佐川)"
+    }
+
+    CustomerOrders ||--o{ OrderItems : "包含"
+    CustomerOrders ||--o{ ShipmentPackages : "拆分为"
+    ShipmentPackages ||--o{ PackageItems : "包含"
+    OrderItems ||--o{ PackageItems : "被打包进"
+    Products ||--o{ OrderItems : "是"
+    Carriers ||--o{ ShipmentPackages : "承运"
+    ShipmentPackages }o--o{ ShipmentPackages : "是子件于"
