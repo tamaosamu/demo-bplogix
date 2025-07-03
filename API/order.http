@@ -1,0 +1,79 @@
+@domain = http://panda.nssoftware.com.cn
+
+### 订单新增
+POST {{domain}}/api/open-api/addOrderApiWh
+accessToken: "47DE8AEB037AE195888D554E5AF9A9B690249C82F3E2208019FAD5846D010808"
+Content-Type: application/x-www-form-urlencoded
+
+{
+    "orderInfo": {
+        "customer_order_id": "CO-202506250001",
+        "receiver_nm": "张三",
+        "receiver_tel": "09012345678",
+        "receiver_zipcode": "1234567",
+        "currency": "JPY",
+        "pcs": 1,
+        "express_company": "Yamato",
+        "country": "JP",
+        "company_id": "COMP123456",
+        "express_no": "ABC123456789JP",
+        "label_url": "https://example.com/label.png",
+        "position": "Tokyo Warehouse",
+        "position_no": "POS123456",
+        "send_company": "ABC公司",
+        "weight": 2.5,
+        "total_money": 1500.75,
+        "pay_mode": "01",
+        "order_pay_mode": "02",
+        "delivery_designation_date": "20250628",
+        "time_specified": "18:00-20:00",
+        "exp": "请小心轻放",
+        "note": "客户要求送货前电话联系",
+        "naping_book_flag": "01",
+        "delivering_receiver_email": "123@qq.com",
+        "delivering_receiver_message": "预计将于6月30日送达，请注意查收。",
+        "delivered_receiver_email": "123@qq.com",
+        "delivered_receiver_message": "您的商品已送达，如有问题请联系售后。",
+        "productList": [
+            {
+                "product_code": "NS56306",
+                "product_amount": 12,
+                "unit_price": 11.1,
+                "total_price": 133.2
+            },
+            {
+                "product_code": "NS99999",
+                "product_amount": 1,
+                "unit_price": 3000.0,
+                "total_price": 3000.0
+            }
+        ]
+    }
+}
+
+{
+  "customer_order_id": "JCBC-202506250001",
+  "receiver_nm": "村上 美知子",
+  "receiver_address": "東京都豊島区西池袋4-17",
+  "receiver_tel": "042-475-7265",
+  "receiver_zipcode": "1710021",
+  "send_company": "测试人",
+  "currency": "JPY",
+  "express_company": "YAMATO",
+  "pcs": "1",
+  "delivering_receiver_email": "zhangbin@nssoftware.com.cn",
+  "delivering_receiver_message": "%receiver_nm% 様\nこの度は当店をご利いただき、誠にありがとうございます。\nご注⽂のお品の準備が整いました。発送させていただきます。\n%productInfo%\n追跡番号\n%express_no%\n以上になります。\n━━━━━━━━━━━━━━━━━━━━━━━━━━\nThinkPad専店\n%customer_order_id%\n━━━━━━━━━━━━━━━━━━━━━━━━━━\n〒893-0009 児島県屋市\nカスタマーセンター\n%send_company%\nTEL: 1234-12-1234 FAX:1234-12-1234\n已发出",
+  "delivered_receiver_email": "zhangbin@nssoftware.com.cn",
+  "delivered_receiver_message": "%receiver_nm% 様\nこの度は当店をご利いただき、誠にありがとうございます。\nご注⽂のお品の準備が整いました。発送させていただきます。\n%productInfo%\n追跡番号\n%express_no%\n以上になります。\n━━━━━━━━━━━━━━━━━━━━━━━━━━\nThinkPad専店\n%customer_order_id%\n━━━━━━━━━━━━━━━━━━━━━━━━━━\n〒893-0009 児島県屋市\nカスタマーセンター\n%send_company%\nTEL: 1234-12-1234 FAX:1234-12-1234\n已签收",
+  "productList": [
+    {
+      "product_code": "PR2506160000",
+      "product_amount": "1"
+    }
+  ],
+  "exp": ""
+}
+
+
+
+### 商品信息新增/修改
